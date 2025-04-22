@@ -26,18 +26,27 @@ def save_config(config):
 
 def transcribe_audio(audio_url):
     print("🎙 Downloading voice file from:", audio_url)
-    audio_data = requests.get(audio_url).content
 
+    # Use Twilio credentials to authenticate the media URL
+    auth = (os.getenv("TWILIO_SID"), os.getenv("TWILIO_AUTH_TOKEN"))
+    headers = {"User-Agent": "Mozilla/5.0"}
+
+    response = requests.get(audio_url, auth=auth, headers=headers)
+
+    # Save downloaded audio to a temporary file
     with open("temp_voice.ogg", "wb") as f:
-        f.write(audio_data)
+        f.write(response.content)
 
+    # Transcribe using OpenAI Whisper API
     with open("temp_voice.ogg", "rb") as f:
         transcription = openai.audio.transcriptions.create(
             file=f,
             model="whisper-1"
         )
+
     print("📝 Transcription:", transcription.text)
     return transcription.text
+
 
 def extract_parameters(text_input):
     config = load_config()
