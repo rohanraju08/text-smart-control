@@ -1,0 +1,23 @@
+# 🔐 Security: Don't upload secrets
+.env
+config.json
+pending.json
+
+# 🧠 Python cache
+__pycache__/
+*.pyc
+
+# 📦 Virtual environment (if created in project folder)
+.venv/
+env/
+
+# 💻 IDE folders
+.idea/
+.vscode/
+
+# 📸 Image/voice logs (if you temporarily store any)
+*.jpg
+*.png
+*.wav
+*.mp3
+*.ogg
